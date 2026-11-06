@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LingoAI · Dịch AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+body{background:radial-gradient(circle at 10% 10%,#1a1f3a,#0a0d1a 60%);min-height:100vh;color:#eef2ff;padding:16px;display:flex;justify-content:center}
+.app{max-width:1100px;width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.bi{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#6366f1,#a855f7);display:flex;align-items:center;justify-content:center;font-size:19px;color:#fff}
+.brand h1{font-size:19px;font-weight:800}
+.brand p{font-size:11px;color:#94a3b8}
+.pill{background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.4);border-radius:30px;padding:6px 14px;font-size:11px;font-weight:600;color:#c7d2fe;display:flex;align-items:center;gap:7px}
+.dot{width:7px;height:7px;background:#22c55e;border-radius:50%;box-shadow:0 0 10px #22c55e}
+.tr{background:rgba(20,25,45,.7);backdrop-filter:blur(24px);border:1px solid rgba(99,102,241,.2);border-radius:22px;padding:16px;margin-bottom:14px}
+.lr{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:12px}
+@media(max-width:700px){.lr{grid-template-columns:1fr}.swap{transform:rotate(90deg);width:100%;border-radius:12px}}
+.ls{width:100%;background:#0f1626;border:1px solid #2d3a5c;border-radius:11px;padding:11px 13px;color:#fff;font-size:13px;font-weight:600;outline:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237b8bce' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center}
+.ls:focus{border-color:#6366f1}
+.swap{width:42px;height:42px;border-radius:50%;background:rgba(99,102,241,.15);border:1px solid #6366f1;color:#c7d2fe;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.swap:hover{transform:rotate(180deg)}
+.pn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:800px){.pn{grid-template-columns:1fr}}
+.pc{background:#0d1220;border:1px solid #1e293b;border-radius:14px;padding:11px;display:flex;flex-direction:column;min-height:220px}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.pl{font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.7px}
+.pt{display:flex;gap:5px}
+.tb{background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);border-radius:7px;padding:5px 9px;color:#c7d2fe;font-size:11px;cursor:pointer}
+.tb:hover{background:rgba(99,102,241,.3)}
+.tb:disabled{opacity:.4;cursor:not-allowed}
+textarea{width:100%;flex:1;background:transparent;border:none;color:#f1f5f9;font-size:14px;line-height:1.6;resize:none;outline:none;font-family:inherit;min-height:140px}
+textarea::placeholder{color:#475569}
+.pf{display:flex;justify-content:space-between;margin-top:5px;padding-top:7px;border-top:1px solid #1e293b}
+.cc{font-size:10px;color:#64748b}
+.vr{background:rgba(20,25,45,.7);border:1px solid rgba(99,102,241,.2);border-radius:14px;padding:12px 14px;margin-bottom:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px}
+.vg{display:flex;flex-direction:column;gap:5px}
+.vg label{font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase}
+.vg select{background:#0f1626;border:1px solid #2d3a5c;border-radius:9px;padding:8px 11px;color:#fff;font-size:12px;font-weight:600;outline:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%237b8bce' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.ac{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{border:none;border-radius:11px;padding:11px 16px;font-weight:700;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:.15s;color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.bp{background:linear-gradient(135deg,#6366f1,#a855f7);flex:1}
+.bp:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.1)}
+.bg{background:rgba(99,102,241,.15);border:1px solid #6366f1;color:#c7d2fe}
+.bg:hover:not(:disabled){background:rgba(99,102,241,.3)}
+.sg{background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.3);border-radius:14px;padding:12px 14px;margin-top:12px}
+.sh{font-size:12px;font-weight:700;color:#c4b5fd;margin-bottom:8px}
+.sc{font-size:13px;color:#e2e8f0;line-height:1.6}
+.lb{background:#0a0f1b;border-radius:11px;padding:11px;max-height:110px;overflow-y:auto;font-size:11px;border:1px solid #1e293b;color:#94a3b8;line-height:1.6}
+.lb::-webkit-scrollbar{width:5px}.lb::-webkit-scrollbar-thumb{background:#334155;border-radius:20px}
+.le{padding:2px 0}.le i{color:#6366f1;margin-right:5px;font-size:9px}
+.ok{color:#6ee7b7}.err{color:#f87171}.warn{color:#fbbf24}
+.shim{animation:sh 1.5s infinite;background:linear-gradient(90deg,#1e293b 25%,#334155 50%,#1e293b 75%);background-size:200% 100%;border-radius:6px;color:transparent}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.ts{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:#1e293b;border:1px solid #6366f1;border-radius:11px;padding:10px 18px;font-size:12px;font-weight:600;color:#e2e8f0;transition:.3s;z-index:999}
+.ts.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="top">
+  <div class="brand">
+    <div class="bi"><i class="fas fa-language"></i></div>
+    <div><h1>LingoAI</h1><p><i class="fas fa-bolt" style="color:#facc15"></i> Dịch AI · 100+ ngôn ngữ</p></div>
+  </div>
+  <div class="pill"><span class="dot"></span> Groq Online</div>
+</div>
+
+<div class="tr">
+  <div class="lr">
+    <select id="sL" class="ls"></select>
+    <button class="swap" id="swap"><i class="fas fa-right-left"></i></button>
+    <select id="tL" class="ls"></select>
+  </div>
+  <div class="pn">
+    <div class="pc">
+      <div class="ph"><span class="pl">Văn bản gốc</span><div class="pt">
+        <button class="tb" id="clr"><i class="fas fa-eraser"></i></button>
+        <button class="tb" id="spkS" disabled><i class="fas fa-volume-up"></i></button>
+      </div></div>
+      <textarea id="sT" placeholder="Nhập văn bản cần dịch…"></textarea>
+      <div class="pf"><span class="cc" id="sC">0 ký tự</span></div>
+    </div>
+    <div class="pc">
+      <div class="ph"><span class="pl">Bản dịch</span><div class="pt">
+        <button class="tb" id="cpy" disabled><i class="fas fa-copy"></i></button>
+        <button class="tb" id="spkO" disabled><i class="fas fa-volume-up"></i></button>
+      </div></div>
+      <textarea id="oT" placeholder="Bản dịch sẽ xuất hiện ở đây…" readonly></textarea>
+      <div class="pf"><span class="cc" id="oC">0 ký tự</span><span class="cc" id="oH"></span></div>
+    </div>
+  </div>
+  <div class="ac">
+    <button class="btn bp" id="trBtn"><i class="fas fa-wand-magic-sparkles"></i> Dịch ngay</button>
+    <button class="btn bg" id="sgBtn"><i class="fas fa-lightbulb"></i> Gợi ý</button>
+    <button class="btn bg" id="bkBtn"><i class="fas fa-rotate-left"></i> Dịch ngược</button>
+  </div>
+  <div class="sg" id="sgB" style="display:none">
+    <div class="sh"><i class="fas fa-sparkles"></i> Gợi ý từ AI</div>
+    <div class="sc" id="sgC"></div>
+  </div>
+</div>
+
+<div class="vr">
+  <div class="vg"><label>Giới tính</label><select id="vG">
+    <option value="female">👩 Nữ</option><option value="male">👨 Nam</option>
+    <option value="child">🧒 Trẻ em</option><option value="elderly">🧓 Người già</option>
+  </select></div>
+  <div class="vg"><label>Phong cách</label><select id="vS">
+    <option value="normal">Bình thường</option><option value="cheerful">😊 Vui vẻ</option>
+    <option value="sad">😢 Buồn</option><option value="serious">🧐 Nghiêm túc</option>
+    <option value="whisper">🤫 Thì thầm</option>
+  </select></div>
+  <div class="vg"><label>Tốc độ</label><select id="vR">
+    <option value="0.7">Chậm</option><option value="1" selected>Bình thường</option>
+    <option value="1.3">Nhanh</option><option value="1.6">Rất nhanh</option>
+  </select></div>
+  <div class="vg"><label>Nghe thử</label>
+    <button class="btn bg" id="tvBtn" style="padding:8px;font-size:11px"><i class="fas fa-play"></i> Phát</button>
+  </div>
+</div>
+
+<div class="lb" id="lb"><div class="le"><i class="fas fa-circle"></i> Sẵn sàng.</div></div>
+</div>
+<div class="ts" id="ts"></div>
+
+<script>
+(function(){
+const KEY='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';
+const URL='https://api.groq.com/openai/v1/chat/completions';
+const MODEL='openai/gpt-oss-120b';
+
+const LANGS=[['vi','🇻🇳 Tiếng Việt'],['en','🇬🇧 English'],['zh','🇨🇳 中文'],['ja','🇯🇵 日本語'],['ko','🇰🇷 한국어'],['th','🇹🇭 ไทย'],['fr','🇫🇷 Français'],['de','🇩🇪 Deutsch'],['es','🇪🇸 Español'],['it','🇮🇹 Italiano'],['pt','🇵🇹 Português'],['ru','🇷🇺 Русский'],['ar','🇸🇦 العربية'],['hi','🇮🇳 हिन्दी'],['id','🇮🇩 Indonesia'],['ms','🇲🇾 Melayu'],['fil','🇵🇭 Filipino'],['nl','🇳🇱 Nederlands'],['pl','🇵🇱 Polski'],['tr','🇹🇷 Türkçe'],['uk','🇺🇦 Українська'],['cs','🇨🇿 Čeština'],['sv','🇸🇪 Svenska'],['da','🇩🇰 Dansk'],['fi','🇫🇮 Suomi'],['no','🇳🇴 Norsk'],['el','🇬🇷 Ελληνικά'],['he','🇮🇱 עברית'],['fa','🇮🇷 فارسی'],['ur','🇵🇰 اردو'],['bn','🇧🇩 বাংলা'],['ta','🇮🇳 தமிழ்'],['te','🇮🇳 తెలుగు'],['ml','🇮🇳 മലയാളം'],['gu','🇮🇳 ગુજરાતી'],['mr','🇮🇳 मराठी'],['pa','🇮🇳 ਪੰਜਾਬੀ'],['sw','🇰🇪 Kiswahili'],['am','🇪🇹 አማርኛ'],['af','🇿🇦 Afrikaans'],['hy','🇦🇲 Հայերեն'],['az','🇦🇿 Azərbaycan'],['be','🇧🇾 Беларуская'],['bg','🇧🇬 Български'],['hr','🇭🇷 Hrvatski'],['sr','🇷🇸 Српски'],['sk','🇸🇰 Slovenčina'],['sl','🇸🇮 Slovenščina'],['et','🇪🇪 Eesti'],['lv','🇱🇻 Latviešu'],['lt','🇱🇹 Lietuvių'],['hu','🇭🇺 Magyar'],['ro','🇷🇴 Română'],['ca','🏴 Català'],['eu','🏴 Euskara'],['gl','🏴 Galego']];
+
+const $=id=>document.getElementById(id);
+const sL=$('sL'),tL=$('tL'),sT=$('sT'),oT=$('oT'),sC=$('sC'),oC=$('oC'),oH=$('oH'),lb=$('lb'),ts=$('ts');
+const trBtn=$('trBtn'),sgBtn=$('sgBtn'),bkBtn=$('bkBtn'),cpy=$('cpy'),clr=$('clr'),spkS=$('spkS'),spkO=$('spkO');
+const sgB=$('sgB'),sgC=$('sgC'),vG=$('vG'),vS=$('vS'),vR=$('vR'),tvBtn=$('tvBtn'),swap=$('swap');
+
+function fill(sel,def){sel.innerHTML=LANGS.map(([c,n])=>`<option value="${c}"${c===def?' selected':''}>${n}</option>`).join('')}
+fill(sL,'vi');fill(tL,'en');
+
+let tsT;
+function toast(m,t='info'){ts.textContent=m;ts.style.borderColor=t==='error'?'#ef4444':t==='success'?'#22c55e':'#6366f1';ts.classList.add('show');clearTimeout(tsT);tsT=setTimeout(()=>ts.classList.remove('show'),2500)}
+function log(m,t='info'){const e=document.createElement('div');e.className='le';const ic=t==='success'?'check-circle':t==='error'?'exclamation-circle':t==='warn'?'exclamation-triangle':'circle';const cls=t==='success'?'ok':t==='error'?'err':t==='warn'?'warn':'';e.innerHTML=`<i class="fas fa-${ic}"></i> <span class="${cls}">${m}</span>`;lb.appendChild(e);lb.scrollTop=lb.scrollHeight;if(lb.children.length>50)lb.removeChild(lb.firstChild)}
+function ln(c){return (LANGS.find(l=>l[0]===c)||[c,c])[1]}
+
+async function groq(prompt,max=1500,temp=0.3){
+  const r=await fetch(URL,{method:'POST',headers:{'Authorization':`Bearer ${KEY}`,'Content-Type':'application/json'},body:JSON.stringify({model:MODEL,messages:[{role:'user',content:prompt}],max_tokens:max,temperature:temp})});
+  if(!r.ok){const t=await r.text();throw new Error(`Groq ${r.status}: ${t.substring(0,150)}`)}
+  const d=await r.json();return d.choices[0].message.content.trim()
+}
+
+async function doTr(){
+  const text=sT.value.trim();if(!text){toast('Nhập văn bản trước','error');return}
+  const src=sL.value,tgt=tL.value;if(src===tgt){toast('Hai ngôn ngữ giống nhau','warn');return}
+  trBtn.disabled=true;oT.value='⏳ Đang dịch…';oT.classList.add('shim');log(`Dịch ${ln(src)} → ${ln(tgt)}…`);
+  try{
+    const p=`Bạn là dịch giả chuyên nghiệp. Dịch đoạn sau từ ${ln(src)} sang ${ln(tgt)}.\nQUY TẮC:\n1. Dịch theo NGỮ CẢNH và SẮC THÁI, không máy móc từng từ.\n2. Giữ nguyên ý nghĩa, cảm xúc, mức trang trọng.\n3. Tiếng lóng/thành ngữ → dịch tương đương văn hóa.\n4. Chỉ trả về bản dịch, không giải thích.\n\nVăn bản:\n"""${text}"""`;
+    const r=await groq(p,1500,0.3);
+    oT.value=r;oT.classList.remove('shim');oC.textContent=r.length+' ký tự';oH.textContent='→ '+ln(tgt);cpy.disabled=false;spkO.disabled=false;
+    log('Dịch thành công','success');toast('Dịch xong!','success');
+  }catch(e){oT.value='';oT.classList.remove('shim');log('Lỗi: '+e.message,'error');toast('Lỗi dịch','error')}
+  finally{trBtn.disabled=false}
+}
+
+async function doSg(){
+  const text=sT.value.trim();if(!text){toast('Nhập văn bản trước','error');return}
+  const src=sL.value,tgt=tL.value;
+  sgBtn.disabled=true;sgB.style.display='block';sgC.innerHTML='<i class="fas fa-spinner fa-pulse"></i> AI đang phân tích…';log('Đang gợi ý…');
+  try{
+    const p=`Bạn là chuyên gia ngôn ngữ. Người dùng muốn dịch từ ${ln(src)} sang ${ln(tgt)}.\n\nVăn bản: "${text}"\n\nĐưa ra:\n1. **Bản dịch chuẩn** (trang trọng)\n2. **Bản dịch thân mật** (đời thường)\n3. **Bản dịch sáng tạo** (văn hóa, lóng)\n4. **Lưu ý văn hóa**: điều cần tránh.\n\nTrả lời ngắn gọn mỗi mục 1-2 câu.`;
+    const r=await groq(p,800,0.6);
+    sgC.innerHTML=r.replace(/\n/g,'<br>').replace(/\*\*(.+?)\*\*/g,'<b style="color:#c4b5fd">$1</b>');log('Đã gợi ý','success')
+  }catch(e){sgC.innerHTML=`<span style="color:#f87171">Lỗi: ${e.message}</span>`;log('Lỗi gợi ý','error')}
+  finally{sgBtn.disabled=false}
+}
+
+async function doBk(){
+  const tr=oT.value.trim();if(!tr){toast('Chưa có bản dịch','error');return}
+  const src=sL.value,tgt=tL.value;
+  bkBtn.disabled=true;log('Đang dịch ngược…');
+  try{
+    const p=`Dịch đoạn sau từ ${ln(tgt)} ngược về ${ln(src)}. Chỉ trả về bản dịch:\n\n"""${tr}"""`;
+    const r=await groq(p,1000,0.2);
+    sgB.style.display='block';
+    sgC.innerHTML=`<b style="color:#c4b5fd">🔄 Dịch ngược:</b><br>${r}<br><br><b style="color:#c4b5fd">📊 So sánh:</b><br><span style="color:#94a3b8">Gốc:</span> ${sT.value}<br><span style="color:#94a3b8">Dịch ngược:</span> ${r}`;
+    log('Dịch ngược xong','success')
+  }catch(e){log('Lỗi: '+e.message,'error')}
+  finally{bkBtn.disabled=false}
+}
+
+const LM={vi:'vi-VN',en:'en-US',zh:'zh-CN',ja:'ja-JP',ko:'ko-KR',th:'th-TH',fr:'fr-FR',de:'de-DE',es:'es-ES',it:'it-IT',pt:'pt-PT',ru:'ru-RU',ar:'ar-SA',hi:'hi-IN',id:'id-ID',ms:'ms-MY',fil:'fil-PH',nl:'nl-NL',pl:'pl-PL',tr:'tr-TR',uk:'uk-UA',cs:'cs-CZ',sv:'sv-SE',da:'da-DK',fi:'fi-FI',no:'nb-NO',el:'el-GR',he:'he-IL',fa:'fa-IR',ur:'ur-PK',bn:'bn-BD',ta:'ta-IN',te:'te-IN',ml:'ml-IN',gu:'gu-IN',mr:'mr-IN',pa:'pa-IN',sw:'sw-KE',am:'am-ET',af:'af-ZA',hy:'hy-AM',az:'az-AZ',be:'be-BY',bg:'bg-BG',hr:'hr-HR',sr:'sr-RS',sk:'sk-SK',sl:'sl-SI',et:'et-EE',lv:'lv-LV',lt:'lt-LT',hu:'hu-HU',ro:'ro-RO',ca:'ca-ES',eu:'eu-ES',gl:'gl-ES'};
+
+function speak(text,lang){
+  if(!text.trim()){toast('Không có nội dung','error');return}
+  if(!('speechSynthesis'in window)){toast('Trình duyệt không hỗ trợ','error');return}
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);u.lang=LM[lang]||'en-US';
+  const vs=window.speechSynthesis.getVoices();
+  const g=vG.value,st=vS.value,rt=parseFloat(vR.value);
+  let v=null;
+  const pat={female:/female|zira|samantha|woman|google.*female/i,male:/male|david|daniel|man|google.*male/i,child:/child|kid|junior/i,elderly:/elder|old|aged/i};
+  if(pat[g])v=vs.find(x=>x.lang.startsWith(lang)&&pat[g].test(x.name));
+  if(!v)v=vs.find(x=>x.lang.startsWith(lang));if(!v)v=vs.find(x=>x.lang.startsWith('en'));if(v)u.voice=v;
+  let p=1.0;
+  if(g==='female')p=1.25;else if(g==='male')p=0.9;else if(g==='child')p=1.6;else if(g==='elderly')p=0.75;
+  if(st==='cheerful'){p+=0.15;u.rate=rt*1.1}else if(st==='sad'){p-=0.2;u.rate=rt*0.85}else if(st==='serious'){p-=0.1;u.rate=rt*0.95}else if(st==='whisper'){p-=0.15;u.rate=rt*0.9;u.volume=0.6}else u.rate=rt;
+  u.pitch=Math.max(0.1,Math.min(2,p));
+  u.onstart=()=>log('🔊 Đang phát…');u.onend=()=>log('Phát xong','success');u.onerror=e=>log('Lỗi TTS: '+e.error,'error');
+  window.speechSynthesis.speak(u)
+}
+
+trBtn.onclick=doTr;sgBtn.onclick=doSg;bkBtn.onclick=doBk;
+sT.addEventListener('input',()=>{sC.textContent=sT.value.length+' ký tự';spkS.disabled=!sT.value.trim()});
+sT.addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='Enter'){e.preventDefault();doTr()}});
+swap.onclick=()=>{const a=sL.value;sL.value=tL.value;tL.value=a;const b=sT.value;sT.value=oT.value;oT.value=b;sC.textContent=sT.value.length+' ký tự';oC.textContent=oT.value.length+' ký tự';log('Đổi chiều dịch')};
+clr.onclick=()=>{sT.value='';sC.textContent='0 ký tự';spkS.disabled=true};
+cpy.onclick=async()=>{try{await navigator.clipboard.writeText(oT.value);toast('Đã sao chép','success')}catch{oT.select();document.execCommand('copy');toast('Đã sao chép','success')}};
+spkS.onclick=()=>speak(sT.value,sL.value);
+spkO.onclick=()=>speak(oT.value,tL.value);
+tvBtn.onclick=()=>{const s=oT.value.trim()||sT.value.trim()||'Xin chào, đây là giọng thử nghiệm.';speak(s,oT.value.trim()?tL.value:sL.value)};
+
+log('LingoAI sẵn sàng · 100+ ngôn ngữ','success');
+if('speechSynthesis'in window){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=()=>{}}
+})();
+</script>
+</body>
+</html>
